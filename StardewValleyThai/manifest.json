@@ -1,0 +1,10 @@
+﻿{
+  "Name": "Stardew Valley - Thai",
+  "Author": "Unknow",
+  "Version": "1.0.0",
+  "Description": "Stardew Valley Thai Font Fix",
+  "UniqueID": "Unknow.ModThai",
+  "EntryDll": "StardewValleyThai.dll",
+  "MinimumApiVersion": "3.18.6",
+  "UpdateKeys": [ ]
+}
