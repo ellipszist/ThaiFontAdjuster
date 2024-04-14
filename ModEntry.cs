@@ -1,12 +1,17 @@
 ﻿using StardewModdingAPI;
 
-namespace StardewValleyThai
+internal class ModEntry : Mod
 {
-    internal class ModEntry : Mod
+    public static bool IsAndroid => Constants.TargetPlatform == GamePlatform.Android;
+    public override void Entry(IModHelper helper)
     {
-        public override void Entry(IModHelper helper)
+        if (IsAndroid)
         {
-            ThaiFontFix.Init();
+            ThaiFontFixAndroid.Init();
+        }
+        else
+        {
+            ThaiFontFixPC.Init();
         }
     }
 }
