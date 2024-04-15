@@ -25,26 +25,21 @@ public static class ThaiFontFixAndroid
         {
             var method = spriteBatch.GetMethod(DrawStringName,
                 [typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Color)]);
-            harmony.Patch(method, new(GetMethod(nameof(PrefixDrawString))));
+            harmony.Patch(method, new(GetMethod(nameof(PrefixDrawString1))));
         }
         {
             var method = spriteBatch.GetMethod(DrawStringName,
                 [typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Color), typeof(float),
-            typeof(Vector2), typeof(Vector2), typeof(SpriteEffects), typeof(float)]);
-            harmony.Patch(method, new(GetMethod(nameof(PrefixDrawString))));
+                typeof(Vector2), typeof(Vector2), typeof(SpriteEffects), typeof(float)]);
+            harmony.Patch(method, new(GetMethod(nameof(PrefixDrawString2))));
         }
         {
             Type[] allParam = [typeof(SpriteFont), typeof(StringBuilder), typeof(Vector2), typeof(Color)];
             var method = spriteBatch.GetMethod(DrawStringName, allParam);
-            harmony.Patch(method, new(GetMethod(nameof(PrefixDrawString))));
+            harmony.Patch(method, new(GetMethod(nameof(PrefixDrawString3))));
         }
 
         //StardewValley
-        //Utility
-        {
-            var method = typeof(StardewValley.Utility).GetMethod("drawMultiLineTextWithShadow");
-            harmony.Patch(method, new(GetMethod(nameof(PrefixDrawMultiLineTextWithShadow))));
-        }
         //SpriteText
         {
             var method = typeof(SpriteText).GetMethod(nameof(SpriteText.drawString));
@@ -54,36 +49,33 @@ public static class ThaiFontFixAndroid
 
     }
 
-    static void PrefixDrawString(SpriteFont spriteFont, ref string text, Vector2 position, Color color)
+    static void PrefixDrawString1(SpriteFont spriteFont, ref string text, Vector2 position, Color color)
     {
         text = "DS1:" + FontFixTool.Fix(text);
     }
 
-    static void PrefixDrawString(SpriteFont spriteFont, ref string text, Vector2 position, Color color,
+    static void PrefixDrawString2(SpriteFont spriteFont, ref string text, Vector2 position, Color color,
         float rotation, Vector2 origin, Vector2 scale,
         SpriteEffects effects, float layerDepth)
     {
         text = "DS2:" + FontFixTool.Fix(text);
     }
 
-    static StringBuilder lastDrawStringBuilder = null;
-    static void PrefixDrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color)
+    static string _lastDrawString3_TextFontFix = null;
+    static void PrefixDrawString3(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color)
     {
-        //cache string
-        if (lastDrawStringBuilder != text)
-        {
-            var allText = text.ToString();
-            text.Clear();
-            text.Append($"DS3:{FontFixTool.Fix(allText)}");
-            lastDrawStringBuilder = text;
-        }
-    }
-    static void PrefixDrawMultiLineTextWithShadow(SpriteBatch b, ref string text, SpriteFont font, Vector2 position,
-        int width, int height, Color col, bool centreY = true, bool actuallyDrawIt = true,
-        bool drawShadows = true, bool centerX = true, bool bold = false,
-        bool close = false, float scale = 1f)
-    {
-        text = "DMLWSD:" + FontFixTool.Fix(text);
+        var sbToText = text.ToString();
+        //Protect dont apply font fix again
+        if (_lastDrawString3_TextFontFix == sbToText)
+            return;
+
+        text.Clear();
+        var textFontFix = "DS3:" + FontFixTool.Fix(sbToText);
+        text.Append(textFontFix);
+        _lastDrawString3_TextFontFix = textFontFix;
+
+        //error on android
+        //text.Append($"DS3:{FontFixTool.Fix(allText)}");
     }
 
     static void PrefixSpriteTextDrawString(SpriteBatch b, ref string s, int x, int y, int characterPosition = 999999,
@@ -91,6 +83,6 @@ public static class ThaiFontFixAndroid
         bool junimoText = false, int drawBGScroll = -1, string placeHolderScrollWidthText = "",
         int color = -1, ScrollTextAlignment scroll_text_alignment = ScrollTextAlignment.Left)
     {
-        s = "STDS:" + FontFixTool.Fix(s); ;
+        s = "DS4:" + FontFixTool.Fix(s); ;
     }
 }

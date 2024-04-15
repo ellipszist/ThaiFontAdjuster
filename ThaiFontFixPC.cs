@@ -37,17 +37,23 @@ internal static class ThaiFontFixPC
 #endif
     }
 
+    static string _lastDrawString3_TextFontFix = "";
     [HarmonyPrefix]
     [HarmonyPatch(typeof(SpriteBatch), nameof(SpriteBatch.DrawString), [typeof(SpriteFont), typeof(StringBuilder), typeof(Vector2), typeof(Color)])]
     static void DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color)
     {
         var allText = text.ToString();
+        //Protect dont apply font fix & fotmat again!!
+        if (allText == _lastDrawString3_TextFontFix)
+            return;
+
         text.Clear();
-        var result = FontFixTool.Fix(allText);
+        var textFontFix = FontFixTool.Fix(allText);
 #if DEBUG
-        text.Append($"DS3={FontFixTool.Fix(allText)}");
+        textFontFix = "DS3=" + textFontFix;
 #endif
-        text.Append(result);
+        text.Append(textFontFix);
+        _lastDrawString3_TextFontFix = textFontFix;
     }
 
     [HarmonyPrefix]
