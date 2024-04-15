@@ -8,9 +8,12 @@ using static StardewValley.BellsAndWhistles.SpriteText;
 [HarmonyPatch]
 internal static class ThaiFontFixPC
 {
-    public static void Init()
+    public static void Init(Harmony harmony)
     {
-        new Harmony(typeof(ThaiFontFixPC).FullName).PatchAll();
+        harmony.PatchAll();
+        //Fix Bug!! PatchAll needed CallStackFrame >= 2
+        //impact on build Release mode
+        int fixbugLmao = 0;
     }
 
     [HarmonyPrefix]
@@ -47,11 +50,12 @@ internal static class ThaiFontFixPC
         if (allText == _lastDrawString3_TextFontFix)
             return;
 
-        text.Clear();
         var textFontFix = FontFixTool.Fix(allText);
 #if DEBUG
         textFontFix = "DS3=" + textFontFix;
 #endif
+
+        text.Clear();
         text.Append(textFontFix);
         _lastDrawString3_TextFontFix = textFontFix;
     }
@@ -67,5 +71,31 @@ internal static class ThaiFontFixPC
 #if DEBUG
         s = "DS4=" + s;
 #endif
+    }
+
+
+
+    static string _lastDrawString5_TextFontFix;
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(SpriteBatch))]
+    [HarmonyPatch(nameof(SpriteBatch.DrawString))]
+    [HarmonyPatch([typeof(SpriteFont), typeof(StringBuilder), typeof(Vector2), typeof(Color),
+            typeof(float), typeof(Vector2), typeof(Vector2), typeof(SpriteEffects), typeof(float)])]
+    static void SprtieBatch_DrawString(SpriteFont spriteFont, StringBuilder text, Vector2 position, Color color,
+            float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
+    {
+        var allText = text.ToString();
+        //Protect dont apply font fix & fotmat again!!
+        if (allText == _lastDrawString5_TextFontFix)
+            return;
+
+        var textFontFix = FontFixTool.Fix(allText);
+#if DEBUG
+        textFontFix = "DS5=" + textFontFix;
+#endif
+
+        text.Clear();
+        text.Append(textFontFix);
+        _lastDrawString5_TextFontFix = textFontFix;
     }
 }

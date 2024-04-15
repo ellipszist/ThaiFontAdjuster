@@ -15,9 +15,8 @@ public static class ThaiFontFixAndroid
         return methods.SingleOrDefault(m => m.Name == newMethod);
     }
 
-    public static void Init()
+    public static void Init(Harmony harmony)
     {
-        var harmony = new Harmony(typeof(ThaiFontFixAndroid).FullName);
         var DrawStringName = nameof(SpriteBatch.DrawString);
         var spriteBatch = typeof(SpriteBatch);
         //XNA Microsoft
