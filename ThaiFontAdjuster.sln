@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StardewValleyThai", "StardewValleyThai.csproj", "{5F5CD60A-FCCB-4BCF-8105-7D2E12C836A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThaiFontAdjuster", "ThaiFontAdjuster.csproj", "{5F5CD60A-FCCB-4BCF-8105-7D2E12C836A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

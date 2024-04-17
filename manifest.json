@@ -1,10 +1,10 @@
 ﻿{
-  "Name": "Stardew Valley - Thai",
-  "Author": "Unknow",
-  "Version": "1.0.0",
-  "Description": "Stardew Valley Thai Font Fix",
-  "UniqueID": "Unknow.ModThai",
-  "EntryDll": "StardewValleyThai.dll",
-  "MinimumApiVersion": "3.18.6",
-  "UpdateKeys": [ ]
+    "Name": "Thai Font Adjuster",
+    "Author": "'ELL and NRTnarathip",
+    "Version": "1.0.0",
+    "MinimumApiVersion": "3.18.6",
+    "Description": "Adjusts Thai fonts for better readability.",
+    "UniqueID": "ELL.ThaiFontAdjuster",
+    "EntryDll": "ThaiFontAdjuster.dll",
+    "UpdateKeys": [ "Nexus:9586" ]
 }
