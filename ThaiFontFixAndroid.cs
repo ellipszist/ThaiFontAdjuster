@@ -45,19 +45,24 @@ public static class ThaiFontFixAndroid
             var methodReplacement = GetMethod(nameof(PrefixSpriteTextDrawString));
             harmony.Patch(method, new(methodReplacement));
         }
-
     }
 
     static void PrefixDrawString1(SpriteFont spriteFont, ref string text, Vector2 position, Color color)
     {
-        text = "DS1:" + FontFixTool.Fix(text);
+        text = FontFixTool.Fix(text);
+#if DEBUG
+        text = "DS1:" + text;
+#endif
     }
 
     static void PrefixDrawString2(SpriteFont spriteFont, ref string text, Vector2 position, Color color,
         float rotation, Vector2 origin, Vector2 scale,
         SpriteEffects effects, float layerDepth)
     {
-        text = "DS2:" + FontFixTool.Fix(text);
+        text = FontFixTool.Fix(text);
+#if DEBUG
+        text = "DS2:" + text;
+#endif
     }
 
     static string _lastDrawString3_TextFontFix = null;
@@ -68,8 +73,13 @@ public static class ThaiFontFixAndroid
         if (_lastDrawString3_TextFontFix == sbToText)
             return;
 
+        var textFontFix = FontFixTool.Fix(sbToText);
+
+#if DEBUG
+        textFontFix = "DS3:" + textFontFix;
+#endif
+
         text.Clear();
-        var textFontFix = "DS3:" + FontFixTool.Fix(sbToText);
         text.Append(textFontFix);
         _lastDrawString3_TextFontFix = textFontFix;
 
@@ -82,6 +92,9 @@ public static class ThaiFontFixAndroid
         bool junimoText = false, int drawBGScroll = -1, string placeHolderScrollWidthText = "",
         int color = -1, ScrollTextAlignment scroll_text_alignment = ScrollTextAlignment.Left)
     {
-        s = "DS4:" + FontFixTool.Fix(s); ;
+        s = FontFixTool.Fix(s);
+#if DEBUG
+        s = "DS4:" + s;
+#endif
     }
 }
